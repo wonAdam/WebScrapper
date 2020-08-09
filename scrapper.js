@@ -108,10 +108,6 @@ const scrapper = async (url) => {
                 comments
             })
         
-            // debug
-            // console.log(profile.innerHTML);
-            // console.log(content.innerHTML);
-            // console.log(comments);
             page3.close();
         }
             
