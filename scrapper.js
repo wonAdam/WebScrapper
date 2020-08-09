@@ -1,5 +1,5 @@
 const { parse } = require('node-html-parser')
-const request = require('request');
+const axios = require('axios').default;
 const puppeteer = require('puppeteer');
 
 
@@ -10,24 +10,22 @@ const scrapper = async (url) => {
         articles:[]
     };
 
-    return new Promise(async (res, rej) => {
-        let LOGIN_ID;
-        let LOGIN_PASSWORD;
-        request("https://api.apify.com/v2/key-value-stores/LH5yRgFQnmtGtc66e/records/login?disableRedirect=true&token=D8kcrHGihB39RKgfGgaXMZ5Df", (err, res, body) => {
-            LOGIN_ID = body.username;
-            LOGIN_PASSWORD = body.password;
-        })
+    return new Promise((res, rej) => {
+        //const {username, password}
+        axios.get(process.env.APIFY_API_URL)
+        .then(async (axiosData) => {
 
+        
+        // console.log(axiosData);
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         await page.goto(url);
     
         console.log('Login')
-        console.log(process.env.LOGIN_ID, process.env.LOGIN_PASSWORD)
         // Login
         const navigationPromise = page.waitForNavigation();
-        await page.type('#container > form > p:nth-child(1) > input', process.env.LOGIN_ID);
-        await page.type('#container > form > p:nth-child(2) > input', process.env.LOGIN_PASSWORD);
+        await page.type('#container > form > p:nth-child(1) > input', axiosData.data.username);
+        await page.type('#container > form > p:nth-child(2) > input', axiosData.data.password);
         await page.click('#container > form > p.submit > input');
         await navigationPromise; 
         console.log('Login Complete')
@@ -127,6 +125,8 @@ const scrapper = async (url) => {
         console.log('Done.');
         
         res(articlesPage);
+    })
+
     })
     
 }
