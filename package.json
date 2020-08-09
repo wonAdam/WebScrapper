@@ -1,0 +1,17 @@
+{
+  "name": "webscrapper",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "Start": "nodemon server"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apify": "^0.21.3",
+    "dotenv": "^8.2.0",
+    "node-html-parser": "^1.2.20",
+    "puppeteer": "^5.2.1"
+  }
+}
