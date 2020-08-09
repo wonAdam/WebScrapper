@@ -11,6 +11,12 @@ const scrapper = async (url) => {
     };
 
     return new Promise(async (res, rej) => {
+        let LOGIN_ID;
+        let LOGIN_PASSWORD;
+        request("https://api.apify.com/v2/key-value-stores/LH5yRgFQnmtGtc66e/records/login?disableRedirect=true&token=D8kcrHGihB39RKgfGgaXMZ5Df", (err, res, body) => {
+            LOGIN_ID = body.username;
+            LOGIN_PASSWORD = body.password;
+        })
 
         const browser = await puppeteer.launch();
         const page = await browser.newPage();

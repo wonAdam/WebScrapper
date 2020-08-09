@@ -6,7 +6,16 @@ dotenv.config({path:'./.env'});
 const url = 'https://everytime.kr/382283';
 const app = express();
 
-const PORT = process.env.PORT || 80;
+
+let data;
+scrapper(url).then((d) => {
+    data = d;
+});
+setInterval(async () => {
+    data = await scrapper(url);
+    console.log(data)
+}, 30000)
+
 
 // Middlewares
 app.use(morgan('common'));
@@ -19,16 +28,9 @@ app.route('/').get((req, res) => {
     });
 });
 
+const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`);
 });
 
 
-let data;
-scrapper(url).then((d) => {
-    data = d;
-});
-setInterval(async () => {
-    data = await scrapper(url);
-    console.log(data)
-}, 15000)
