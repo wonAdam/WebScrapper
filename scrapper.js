@@ -17,9 +17,9 @@ const scrapper = async (url) => {
 
         
         // console.log(axiosData);
-        const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+        const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
         const page = await browser.newPage();
-        await page.goto(url);
+        await page.goto('https://everytime.kr/login');
     
         console.log('Login')
         // Login
