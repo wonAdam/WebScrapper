@@ -2,7 +2,17 @@ const Apify = require('apify');
 const { parse } = require('node-html-parser')
 const request = require('request');
 
-const scrap_board = (url) => {
+const url = 'https://everytime.kr/382283';
+
+const scrapper = async (req, res, next) => {
+    const data = await scrap_board(url);
+    req.data = data;
+    console.dir(data);
+    next();
+}
+
+
+const scrap_board = (req, res, next) => {
     const articlesPage = {
         articles:[]
     }
@@ -12,9 +22,9 @@ const scrap_board = (url) => {
             let input;
             await request(process.env.APIFY_API_URL, 
                 function (error, response, body) {
-                console.log('Status:', response.statusCode);
-                console.log('Headers:', JSON.stringify(response.headers));
-                console.log('Response:', body);
+                // console.log('Status:', response.statusCode);
+                // console.log('Headers:', JSON.stringify(response.headers));
+                // console.log('Response:', body);
                 input = JSON.parse(body);
                 // console.log(input);
                 });
@@ -56,7 +66,7 @@ const scrap_board = (url) => {
             page2.close();
     
     
-            console.log(hrefs); 
+            // console.log(hrefs); 
             for(const href of hrefs){
                 const page3 = await browser.newPage();
                 await page3.setCookie(...cookies);
@@ -117,7 +127,7 @@ const scrap_board = (url) => {
                 page3.close();
             }
         
-            console.dir(articlesPage)
+            // console.dir(articlesPage)
         
             await browser.close();
         
@@ -129,7 +139,7 @@ const scrap_board = (url) => {
 }
 
 
-module.exports = scrap_board;
+module.exports = scrapper;
 
 
 
