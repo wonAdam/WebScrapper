@@ -11,12 +11,9 @@ const scrapper = async (url) => {
     };
 
     return new Promise((res, rej) => {
-        //const {username, password}
         axios.get(process.env.APIFY_API_URL)
         .then(async (axiosData) => {
 
-        
-        // console.log(axiosData);
         const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
         const page = await browser.newPage();
         await page.goto('https://everytime.kr/login');
@@ -35,13 +32,12 @@ const scrapper = async (url) => {
     
         page.close();
         
+        console.log('Moving to First Page of the Board')
         const page2 = await browser.newPage();
         await page2.setCookie(...cookies);
         await page2.goto(url);
         await page2.waitForSelector('#writeArticleButton');
                 
-        // console.log(await page2.content())
-            
         const htmlContent = await page2.content();
         const htmlDOM = parse(htmlContent);
         const aritcleWrapper = htmlDOM.querySelector('.articles')
@@ -56,9 +52,10 @@ const scrapper = async (url) => {
             
         page2.close();
         
-        
+        console.log('Start to Scrap the Articles')
         // console.log(hrefs); 
         for(const href of hrefs){
+            console.log(`Crawling in ${href}`)
             const page3 = await browser.newPage();
             await page3.setCookie(...cookies);
             await page3.goto('https://everytime.kr' + href);
