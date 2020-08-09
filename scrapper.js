@@ -59,7 +59,7 @@ const scrapper = async (url) => {
             const page3 = await browser.newPage();
             await page3.setCookie(...cookies);
             await page3.goto('https://everytime.kr' + href);
-            await page3.waitForSelector('.profile');
+            await page3.waitForSelector('#container > div.wrap.articles > article > a > p');
             // console.log(await page3.content());
             // console.log('https://everytime.kr/' + hrefs[0]);
             const htmlContent2 = await page3.content();
@@ -89,9 +89,8 @@ const scrapper = async (url) => {
                 time.setHours(hour);
                 time.setMinutes(min);
             }
-                    
-                    
-            const content = htmlDOM2.querySelector('.wrap.articles').querySelector('article').querySelector('a.article').querySelector('p').innerHTML;
+
+            const content = htmlDOM2.querySelector('.wrap.articles').querySelector('article').querySelector('.article').querySelector('p.large').innerText;
             const commentsWrapper = htmlDOM2.querySelector('.comments')
             const comments = commentsWrapper.querySelectorAll('article').map((a) => {
                 return {
@@ -99,7 +98,7 @@ const scrapper = async (url) => {
                     content: a.querySelector('p').innerHTML
                     };
             });
-            const id = htmlDOM2.querySelector('.status').querySelector('.messagesend').getAttribute('data-article-id');
+            const id = href.split('/')[3]
             articlesPage.articles.push({
                 id,
                 author,
