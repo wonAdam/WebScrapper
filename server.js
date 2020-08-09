@@ -6,7 +6,7 @@ dotenv.config({path:'./.env'});
 const url = 'https://everytime.kr/382283';
 const app = express();
 
-const PORT = process.env.PORT || 8001;
+const PORT = process.env.PORT || 80;
 
 // Middlewares
 app.use(morgan('common'));
