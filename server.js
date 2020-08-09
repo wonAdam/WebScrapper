@@ -12,16 +12,15 @@ const app = express();
 
 
 let data;
-scrapper(url).then(function(d){
-    data = d;
-});
-setInterval(async function () {
-    data = await scrapper(url);
-    console.log('************************************************************************');
-    console.log('************************* Data Update Complete *************************');
-    console.log('************************************************************************');
-}, 30000)
 
+(async () => {
+    while(true){
+        data = await scrapper(url);
+        console.log('************************************************************************');
+        console.log('************************* Data Update Complete *************************');
+        console.log('************************************************************************');
+    }
+})()
 
 // Middlewares
 app.use(morgan('common'));
