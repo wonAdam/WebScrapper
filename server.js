@@ -32,7 +32,7 @@ app.route('/').get(async (req, res) => {
         status: 'success',
         data
     });
-    console.log('Sending Response Complete');
+    console.log('#########################Sending Response Complete#########################');
 });
 
 const PORT = process.env.PORT || 80;

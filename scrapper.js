@@ -92,13 +92,13 @@ const scrapper = async (url) => {
                     time.setMinutes(min);
                 }
                 const container = htmlDOM2.querySelector("#container");
-                console.log('container: ', container !== null)
+                // console.log('container: ', container !== null)
                 const articlesWrapper = container.querySelector("div.wrap.articles");
-                console.log('articlesWrapper: ', articlesWrapper !== null)
+                // console.log('articlesWrapper: ', articlesWrapper !== null)
                 const articleWrapper = articlesWrapper.querySelector("article");
-                console.log('articleWrapper: ', articleWrapper !== null)
+                // console.log('articleWrapper: ', articleWrapper !== null)
                 const article_a = articleWrapper.querySelector("a.article");
-                console.log('article_a: ', article_a !== null)
+                // console.log('article_a: ', article_a !== null)
                 const content = article_a.querySelector("p.large").innerHTML;
                 const commentsWrapper = htmlDOM2.querySelector('.comments')
                 const comments = commentsWrapper.querySelectorAll('article').map((a) => {
