@@ -2,8 +2,6 @@ const Apify = require('apify');
 const { parse } = require('node-html-parser')
 const request = require('request');
 
-mongoose.connect(process.env.MONGO_CONNECT, {useNewUrlParser: true});
-
 const scrap_board = (url) => {
 
     const articlesPage = {
