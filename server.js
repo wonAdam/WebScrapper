@@ -7,21 +7,22 @@ const url = 'https://everytime.kr/382283';
 const app = express();
 
 
-let data;
-scrapper(url).then((d) => {
-    data = d;
-});
-setInterval(async () => {
-    data = await scrapper(url);
-    console.log(data)
-}, 30000)
+// let data;
+// scrapper(url).then((d) => {
+//     data = d;
+// });
+// setInterval(async () => {
+//     data = await scrapper(url);
+//     console.log(data)
+// }, 30000)
 
 
 // Middlewares
 app.use(morgan('common'));
 
 // Router
-app.route('/').get((req, res) => {
+app.route('/').get(async (req, res) => {
+    const data = await scrapper(url)
     res.send({
         status: 'success',
         data
