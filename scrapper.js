@@ -132,7 +132,7 @@ const scrapper = async (url) => {
                       }))
 
                     return {
-                        isChild: a.classNames()[0] === "child",
+                        isChild: a.classNames[0] === "child",
                         author: a.querySelector('h3').innerHTML,
                         content: a.querySelector('p').innerHTML,
                         time
