@@ -7,8 +7,8 @@
     "start": "node server",
     "dev": "nodemon server"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "wonAdam",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
