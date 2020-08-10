@@ -101,8 +101,8 @@ const scrapper = async (url) => {
                 const articleWrapper = articlesWrapper.querySelector("article");
                 // console.log('articleWrapper: ', articleWrapper !== null)
                 const article_a = articleWrapper.querySelector("a.article");
-                const likes = article_a.querySelector(".vote").innerHTML;
-                const scraps = article_a.querySelector(".scrap").innerHTML;
+                const likes = Number(article_a.querySelector(".vote").innerHTML);
+                const scraps = Number(article_a.querySelector(".scrap").innerHTML);
                 // console.log('article_a: ', article_a !== null)
                 const content = article_a.querySelector("p.large").innerHTML;
                 const commentsWrapper = htmlDOM2.querySelector('.comments')
@@ -138,9 +138,9 @@ const scrapper = async (url) => {
                         time
                         };
                 });
-                const id = href.split('/')[3]
+                const _id = href.split('/')[3]
                 articlesPage.push({
-                    id,
+                    _id,
                     author,
                     time, 
                     content,

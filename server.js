@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const scrapper = require('./scrapper');
 const dotenv = require('dotenv');
+const axios = require('axios').default;
 dotenv.config({path:'./.env'});
 // .env
 // APIFY_API_URL = { 에타 비번과 아이디를 보내주는 api url }
@@ -18,6 +19,12 @@ let data;
         console.log('************************************************************************');
         console.log('************************* Data Update Complete *************************');
         console.log('************************************************************************');
+        
+        // data.forEach((d) => {
+        //     await axios.post()
+        // })
+        
+    
     }
 })()
 
