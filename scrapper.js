@@ -95,13 +95,37 @@ const scrapper = async (url) => {
                 const articleWrapper = articlesWrapper.querySelector("article");
                 // console.log('articleWrapper: ', articleWrapper !== null)
                 const article_a = articleWrapper.querySelector("a.article");
+                const likes = article_a.querySelector(".vote").innerHTML;
+                const scraps = article_a.querySelector(".scrap").innerHTML;
                 // console.log('article_a: ', article_a !== null)
                 const content = article_a.querySelector("p.large").innerHTML;
                 const commentsWrapper = htmlDOM2.querySelector('.comments')
                 const comments = commentsWrapper.querySelectorAll('article').map((a) => {
+                    const timeStr = a.querySelector('time').innerHTML;
+                    const time = new Date();
+                    if(timeStr[timeStr.length-1] === '전'){
+                        time.setTime(Date.now() - 60 * 1000 * Number(timeStr[0]))
+                    }
+                    else if(timeStr[0] === '방'){
+                        time.setTime(Date.now())
+                    }
+                    else{
+                        const year = new Date(Date.now()).getFullYear();
+                        const month = new Date(timeStr).getMonth();
+                        const day = new Date(timeStr).getDate();
+                        const hour = new Date(timeStr).getHours();
+                        const min = new Date(timeStr).getMinutes();
+                        time.setFullYear(year);
+                        time.setMonth(month);
+                        time.setDate(day);
+                        time.setHours(hour);
+                        time.setMinutes(min);
+                    }
+
                     return {
                         author: a.querySelector('h3').innerHTML,
-                        content: a.querySelector('p').innerHTML
+                        content: a.querySelector('p').innerHTML,
+                        time
                         };
                 });
                 const id = href.split('/')[3]
@@ -110,6 +134,8 @@ const scrapper = async (url) => {
                     author,
                     time, 
                     content,
+                    likes,
+                    scraps,
                     comments
                 })
             
