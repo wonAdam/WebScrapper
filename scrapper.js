@@ -140,7 +140,7 @@ const scrapper = async (url) => {
                 });
                 const _id = href.split('/')[3]
                 articlesPage.push({
-                    _id,
+                    id,
                     author,
                     time, 
                     content,
