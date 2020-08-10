@@ -26,9 +26,10 @@ let data;
                 if(!res.success){
                     const res = await axios.put(process.env.EVERY_TIME_ARCHIVER_API_URI + "/" + d.id, d);
                 }
-                console.log(`************************** Data ${d.id} Sent ***************************`);
+                console.log(`POST / ${process.env.EVERY_TIME_ARCHIVER_API_URI}`);
             }catch(err){
                 const res = await axios.put(process.env.EVERY_TIME_ARCHIVER_API_URI + "/" + d.id, d);
+                console.log(`PUT / ${process.env.EVERY_TIME_ARCHIVER_API_URI}/${d.id}`);
             }
         })
         
