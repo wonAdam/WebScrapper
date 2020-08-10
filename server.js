@@ -24,11 +24,11 @@ let data;
             try{
                 const res = await axios.post(process.env.EVERY_TIME_ARCHIVER_API_URI, d);
                 if(!res.success){
-                    const res = await axios.put(process.env.EVERY_TIME_ARCHIVER_API_URI, d);
+                    const res = await axios.put(process.env.EVERY_TIME_ARCHIVER_API_URI + "/" + d.id, d);
                 }
                 console.log(`************************** Data ${d.id} Sent ***************************`);
             }catch(err){
-                const res = await axios.put(process.env.EVERY_TIME_ARCHIVER_API_URI, d);
+                const res = await axios.put(process.env.EVERY_TIME_ARCHIVER_API_URI + "/" + d.id, d);
             }
         })
         
