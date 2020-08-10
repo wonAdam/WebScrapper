@@ -5,10 +5,7 @@ const puppeteer = require('puppeteer');
 
 
 const scrapper = async (url) => {
-    const articlesPage = 
-    {
-        articles:[]
-    };
+    const articlesPage = [];
 
     return new Promise((res, rej) => {
             
@@ -108,7 +105,7 @@ const scrapper = async (url) => {
                         };
                 });
                 const id = href.split('/')[3]
-                articlesPage.articles.push({
+                articlesPage.push({
                     id,
                     author,
                     time, 

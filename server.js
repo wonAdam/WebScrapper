@@ -1,6 +1,5 @@
 const express = require('express');
 const morgan = require('morgan');
-const timeout = require('connect-timeout');
 const scrapper = require('./scrapper');
 const dotenv = require('dotenv');
 dotenv.config({path:'./.env'});
@@ -24,7 +23,6 @@ let data;
 
 // Middlewares
 app.use(morgan('common'));
-app.use(timeout('59s'))
 
 // Router
 app.route('/').get(async (req, res) => {
