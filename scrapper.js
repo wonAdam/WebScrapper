@@ -69,12 +69,12 @@ const scrapper = async (url) => {
             
                 // Time
                 const timeStr = profile.querySelector('time').innerHTML;
-                const time = new Date();
+                const tmp_time = new Date();
                 if(timeStr[timeStr.length-1] === '전'){
-                    time.setTime(Date.now() - 60 * 1000 * Number(timeStr[0]))
+                    tmp_time.setTime(Date.now() - 60 * 1000 * Number(timeStr[0]))
                 }
                 else if(timeStr[0] === '방'){
-                    time.setTime(Date.now())
+                    tmp_time.setTime(Date.now())
                 }
                 else{
                     const year = new Date(Date.now()).getFullYear();
@@ -82,12 +82,18 @@ const scrapper = async (url) => {
                     const day = new Date(timeStr).getDate();
                     const hour = new Date(timeStr).getHours();
                     const min = new Date(timeStr).getMinutes();
-                    time.setFullYear(year);
-                    time.setMonth(month);
-                    time.setDate(day);
-                    time.setHours(hour);
-                    time.setMinutes(min);
+                    tmp_time.setFullYear(year);
+                    tmp_time.setMonth(month);
+                    tmp_time.setDate(day);
+                    tmp_time.setHours(hour);
+                    tmp_time.setMinutes(min);
                 }
+                const time = new Date(tmp_time.toLocaleString('en-US', {
+                    timeZone: 'Asia/Seoul'
+                }))
+
+
+
                 const container = htmlDOM2.querySelector("#container");
                 // console.log('container: ', container !== null)
                 const articlesWrapper = container.querySelector("div.wrap.articles");
@@ -102,12 +108,12 @@ const scrapper = async (url) => {
                 const commentsWrapper = htmlDOM2.querySelector('.comments')
                 const comments = commentsWrapper.querySelectorAll('article').map((a) => {
                     const timeStr = a.querySelector('time').innerHTML;
-                    const time = new Date();
+                    let tmp_time = new Date();
                     if(timeStr[timeStr.length-1] === '전'){
-                        time.setTime(Date.now() - 60 * 1000 * Number(timeStr[0]))
+                        tmp_time.setTime(Date.now() - 60 * 1000 * Number(timeStr[0]))
                     }
                     else if(timeStr[0] === '방'){
-                        time.setTime(Date.now())
+                        tmp_time.setTime(Date.now())
                     }
                     else{
                         const year = new Date(Date.now()).getFullYear();
@@ -115,12 +121,15 @@ const scrapper = async (url) => {
                         const day = new Date(timeStr).getDate();
                         const hour = new Date(timeStr).getHours();
                         const min = new Date(timeStr).getMinutes();
-                        time.setFullYear(year);
-                        time.setMonth(month);
-                        time.setDate(day);
-                        time.setHours(hour);
-                        time.setMinutes(min);
+                        tmp_time.setFullYear(year);
+                        tmp_time.setMonth(month);
+                        tmp_time.setDate(day);
+                        tmp_time.setHours(hour);
+                        tmp_time.setMinutes(min);
                     }
+                    const time = new Date(tmp_time.toLocaleString('en-US', {
+                        timeZone: 'Asia/Seoul'
+                      }))
 
                     return {
                         isChild: a.classNames()[0] === "child",
