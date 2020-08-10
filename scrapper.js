@@ -1,10 +1,10 @@
 const { parse } = require('node-html-parser')
 const axios = require('axios').default;
 const puppeteer = require('puppeteer');
+const url = require('url')
 
 
-
-const scrapper = async (url) => {
+const scrapper = async (board_url) => {
     const articlesPage = [];
 
     return new Promise((res, rej) => {
@@ -34,7 +34,7 @@ const scrapper = async (url) => {
             console.log('Moving to First Page of the Board')
             const page2 = await browser.newPage();
             await page2.setCookie(...cookies);
-            await page2.goto(url, {waitUntil : 'networkidle2' }).catch(e => void 0);
+            await page2.goto(board_url, {waitUntil : 'networkidle2' }).catch(e => void 0);
             await page2.waitForSelector('#writeArticleButton');
                     
             const htmlContent = await page2.content();
@@ -57,7 +57,7 @@ const scrapper = async (url) => {
                 console.log(`Crawling in ${href}`)
                 const page3 = await browser.newPage();
                 await page3.setCookie(...cookies);
-                await page3.goto('https://everytime.kr' + href, {waitUntil : 'networkidle2' }).catch(e => void 0);
+                await page3.goto(url.resolve('https://everytime.kr',href), {waitUntil : 'networkidle2' }).catch(e => void 0);
                 await page3.waitForSelector('#writeArticleButton');
                 // console.log(await page3.content());
                 // console.log('https://everytime.kr/' + hrefs[0]);

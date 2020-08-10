@@ -1,13 +1,14 @@
 const express = require('express');
 const morgan = require('morgan');
 const scrapper = require('./scrapper');
+const url = require('url');
 const dotenv = require('dotenv');
 const axios = require('axios').default;
 dotenv.config({path:'./.env'});
 // .env
 // APIFY_API_URL = { 에타 비번과 아이디를 보내주는 api url }
 // PORT = { 사용할 포트번호 }
-const url = 'https://everytime.kr/382283';
+const board_url = 'https://everytime.kr/382283';
 const app = express();
 
 
@@ -15,7 +16,7 @@ let data;
 
 (async () => {
     while(true){
-        data = await scrapper(url);
+        data = await scrapper(board_url);
         console.log('************************************************************************');
         console.log('************************* Data Update Complete *************************');
         console.log('************************************************************************');
@@ -24,11 +25,11 @@ let data;
             try{
                 const res = await axios.post(process.env.EVERY_TIME_ARCHIVER_API_URI, d);
                 if(!res.success){
-                    const res = await axios.put(process.env.EVERY_TIME_ARCHIVER_API_URI + "/" + d.id, d);
+                    const res = await axios.put(url.resolve(process.env.EVERY_TIME_ARCHIVER_API_URI, d.id), d);
                 }
                 console.log(`POST / ${process.env.EVERY_TIME_ARCHIVER_API_URI}`);
             }catch(err){
-                const res = await axios.put(process.env.EVERY_TIME_ARCHIVER_API_URI + "/" + d.id, d);
+                const res = await axios.put(url.resolve(process.env.EVERY_TIME_ARCHIVER_API_URI, d.id), d);
                 console.log(`PUT / ${process.env.EVERY_TIME_ARCHIVER_API_URI}/${d.id}`);
             }
         })
