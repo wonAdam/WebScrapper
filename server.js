@@ -20,9 +20,17 @@ let data;
         console.log('************************* Data Update Complete *************************');
         console.log('************************************************************************');
         
-        // data.forEach((d) => {
-        //     await axios.post()
-        // })
+        data.forEach(async(d) => {
+            try{
+                const res = await axios.post(process.env.EVERY_TIME_ARCHIVER_API_URI, d);
+                if(!res.success){
+                    const res = await axios.put(process.env.EVERY_TIME_ARCHIVER_API_URI, d);
+                }
+                console.log(`************************** Data ${d.id} Sent ***************************`);
+            }catch(err){
+                const res = await axios.put(process.env.EVERY_TIME_ARCHIVER_API_URI, d);
+            }
+        })
         
     
     }
@@ -40,7 +48,7 @@ app.route('/').get(async (req, res) => {
     console.log('#########################Sending Response Complete#########################');
 });
 
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`);
 });

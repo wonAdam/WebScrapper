@@ -138,7 +138,7 @@ const scrapper = async (url) => {
                         time
                         };
                 });
-                const _id = href.split('/')[3]
+                const id = href.split('/')[3]
                 articlesPage.push({
                     id,
                     author,
