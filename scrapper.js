@@ -54,7 +54,7 @@ const scrapper = async (board_url) => {
             console.log('Start to Scrap the Articles')
             // console.log(hrefs); 
             for(const href of hrefs){
-                console.log(`Crawling in ${href}`)
+                console.log(`Crawling in ${href}`.green);
                 const page3 = await browser.newPage();
                 await page3.setCookie(...cookies);
                 await page3.goto(url.resolve('https://everytime.kr',href), {waitUntil : 'networkidle2' }).catch(e => void 0);
@@ -150,6 +150,7 @@ const scrapper = async (board_url) => {
                 })
             
                 page3.close();
+                console.log(`            ${href} Scrapped !`.green);
             }
 
                 

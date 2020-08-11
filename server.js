@@ -23,6 +23,15 @@ let data;
         console.log('************************************************************************');
     }
 })()
+setInterval(async () => {
+    try{
+        console.log(`Wake Up Call For Archiver API`.blue);
+        const res = await axios.get(process.env.EVERY_TIME_ARCHIVER_API_URI);
+        console.log(`success: ${res.data.success}`.blue);
+    }catch(err){
+        console.log(`WAKE UP CALL FAIL`.red)
+    }
+}, 30000)
 
 // Middlewares
 app.use(morgan('common'));
@@ -33,7 +42,7 @@ app.route('/').get(async (req, res) => {
         status: 'success',
         data
     });
-    console.log('#########################Sending Response Complete#########################');
+    console.log('#########################Sending Response Complete#########################'.cyan);
 });
 
 const PORT = process.env.PORT || 3000;
