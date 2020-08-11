@@ -69,8 +69,9 @@ const scrapper = async (board_url) => {
                 
                     // Time
                     const timeStr = profile.querySelector('time').innerHTML;
-                    const tmp_time = Date().now();
+                    const tmp_time = new Date();
                     if(timeStr[timeStr.length-1] === '전'){
+                        tmp_time.setTime(Date.now());
                         if(timeStr.length <= 4)
                             tmp_time.setMinutes(tmp_time.getMinutes() - Number(timeStr[0]))
                         else 
@@ -111,8 +112,9 @@ const scrapper = async (board_url) => {
                     const commentsWrapper = htmlDOM2.querySelector('.comments')
                     const comments = commentsWrapper.querySelectorAll('article').map((a) => {
                         const timeStr = a.querySelector('time').innerHTML;
-                        let tmp_time = Date.now();
+                        let tmp_time = new Date();
                         if(timeStr[timeStr.length-1] === '전'){
+                            tmp_time.setTime(Date.now());
                             if(timeStr.length <= 4)
                                 tmp_time.setMinutes(tmp_time.getMinutes() - Number(timeStr[0]))
                             else 
