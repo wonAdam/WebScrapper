@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const scrapper = require('./scrapper');
 const url = require('url');
 const dotenv = require('dotenv');
+const colors = require('colors');
 const axios = require('axios').default;
 dotenv.config({path:'./.env'});
 // .env
@@ -20,21 +21,6 @@ let data;
         console.log('************************************************************************');
         console.log('************************* Data Update Complete *************************');
         console.log('************************************************************************');
-        
-        data.forEach(async(d) => {
-            try{
-                const res = await axios.post(process.env.EVERY_TIME_ARCHIVER_API_URI, d);
-                if(!res.success){
-                    const res = await axios.put(url.resolve(process.env.EVERY_TIME_ARCHIVER_API_URI, d.id), d);
-                }
-                console.log(`POST / ${process.env.EVERY_TIME_ARCHIVER_API_URI}`);
-            }catch(err){
-                const res = await axios.put(url.resolve(process.env.EVERY_TIME_ARCHIVER_API_URI, d.id), d);
-                console.log(`PUT / ${process.env.EVERY_TIME_ARCHIVER_API_URI}/${d.id}`);
-            }
-        })
-        
-    
     }
 })()
 
