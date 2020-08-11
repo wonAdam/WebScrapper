@@ -109,9 +109,9 @@ const scrapper = async (board_url) => {
                     const commentsWrapper = htmlDOM2.querySelector('.comments')
                     const comments = commentsWrapper.querySelectorAll('article').map((a) => {
                         const timeStr = a.querySelector('time').innerHTML;
-                        let tmp_time = new Date();
+                        let tmp_time = Date.now();
                         if(timeStr[timeStr.length-1] === '전'){
-                            tmp_time.setTime(Date.now() - 60 * 1000 * Number(timeStr[0]))
+                            tmp_time.setMinutes(tmp_time.getMinutes() - Number(timeStr[0]));
                         }
                         else if(timeStr[0] === '방'){
                             tmp_time.setTime(Date.now())
