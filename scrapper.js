@@ -2,7 +2,7 @@ const { parse } = require('node-html-parser')
 const axios = require('axios').default;
 const puppeteer = require('puppeteer');
 const url = require('url')
-
+const moment = require('moment-timezone');
 
 const scrapper = async (board_url) => {
     const articlesPage = [];
@@ -69,42 +69,41 @@ const scrapper = async (board_url) => {
                 
                     // Time
                     const timeStr = profile.querySelector('time').innerHTML;
-                    const tmp_time = new Date();
+                    const tmp_time = moment(new Date()).tz('Asia/Seoul');
                     if(timeStr[timeStr.length-1] === '전'){ // @@분 전 / @분 전
-                        tmp_time.setTime(Date.now());
                         if(timeStr.length <= 4)
-                            tmp_time.setMinutes(tmp_time.getMinutes() - Number(timeStr[0]))
+                            tmp_time.minute(tmp_time.minute() - Number(timeStr[0]))
                         else 
-                            tmp_time.setMinutes(tmp_time.getMinutes() - Number(timeStr.slice(0,2)))
+                            tmp_time.minute(tmp_time.minute() - Number(timeStr.slice(0,2)))
                     }
                     else if(timeStr[0] === '방'){ // 방금
-                        tmp_time.setTime(Date.now())
+                        // nothing to do
                     }
                     else if(timeStr.length === 14){ // @@/@@/@@ @@:@@ (작년이전) // 19/06/07 19:58
                         const year = Number(timeStr.slice(0,2));
                         const month = Number(timeStr.slice(3,5))-1;
-                        const day = Number(timeStr.slice(6,8));
+                        const date = Number(timeStr.slice(6,8));
                         const hour = Number(timeStr.slice(9,11));
                         const min = Number(timeStr.slice(12,14));
-                        tmp_time.setFullYear(2000+year);
-                        tmp_time.setMonth(month);
-                        tmp_time.setDate(day);
-                        tmp_time.setHours(hour);
-                        tmp_time.setMinutes(min);                    
+                        tmp_time.year(2000+year);
+                        tmp_time.month(month);
+                        tmp_time.date(date);
+                        tmp_time.hour(hour);
+                        tmp_time.minute(min);                    
                     }
                     else{ // 1시간후 올해 
                         const year = new Date(Date.now()).getFullYear();
                         const month = Number(timeStr.slice(0,2))-1;
-                        const day = Number(timeStr.slice(3,5));
+                        const date = Number(timeStr.slice(3,5));
                         const hour = Number(timeStr.slice(6,8));
                         const min = Number(timeStr.slice(9,11));
-                        tmp_time.setFullYear(year);
-                        tmp_time.setMonth(month);
-                        tmp_time.setDate(day);
-                        tmp_time.setHours(hour);
-                        tmp_time.setMinutes(min);
+                        tmp_time.year(year);
+                        tmp_time.month(month);
+                        tmp_time.date(date);
+                        tmp_time.hour(hour);
+                        tmp_time.minute(min);
                     }
-                    const time = tmp_time;
+                    const time = tmp_time.format();
 
 
 
@@ -121,49 +120,52 @@ const scrapper = async (board_url) => {
                     const content = article_a.querySelector("p.large").innerHTML;
                     const commentsWrapper = htmlDOM2.querySelector('.comments')
                     const comments = commentsWrapper.querySelectorAll('article').map((a) => {
+                        const commentvotestatus  = a.querySelector('.commentvotestatus');
+                        const commentvote = commentvotestatus.querySelector('.commentvote');
+                        const likes = commentvote.innerHTML;
                         const timeStr = a.querySelector('time').innerHTML;
-                        let tmp_time = new Date();
+                        const tmp_time = moment(new Date()).tz('Asia/Seoul');
                         if(timeStr[timeStr.length-1] === '전'){
-                            tmp_time.setTime(Date.now());
                             if(timeStr.length <= 4)
-                                tmp_time.setMinutes(tmp_time.getMinutes() - Number(timeStr[0]))
+                                tmp_time.minute(tmp_time.minute() - Number(timeStr[0]))
                             else 
-                                tmp_time.setMinutes(tmp_time.getMinutes() - Number(timeStr.slice(0,2)))
+                                tmp_time.minute(tmp_time.minute() - Number(timeStr.slice(0,2)))
                         }
                         else if(timeStr[0] === '방'){
-                            tmp_time.setTime(Date.now())
+                            // nothing to do
                         }
                         else if(timeStr.length === 14){
                             const year = Number(timeStr.slice(0,2));
                             const month = Number(timeStr.slice(3,5))-1;
-                            const day = Number(timeStr.slice(6,8));
+                            const date = Number(timeStr.slice(6,8));
                             const hour = Number(timeStr.slice(9,11));
                             const min = Number(timeStr.slice(12,14));
-                            tmp_time.setFullYear(year);
-                            tmp_time.setMonth(month);
-                            tmp_time.setDate(day);
-                            tmp_time.setHours(hour);
-                            tmp_time.setMinutes(min);    
+                            tmp_time.year(year);
+                            tmp_time.month(month);
+                            tmp_time.date(date);
+                            tmp_time.hour(hour);
+                            tmp_time.minute(min);    
                         }
                         else{
                             const year = new Date(Date.now()).getFullYear();
                             const month = Number(timeStr.slice(0,2))-1;
-                            const day = Number(timeStr.slice(3,5));
+                            const date = Number(timeStr.slice(3,5));
                             const hour = Number(timeStr.slice(6,8));
                             const min = Number(timeStr.slice(9,11));
-                            tmp_time.setFullYear(year);
-                            tmp_time.setMonth(month);
-                            tmp_time.setDate(day);
-                            tmp_time.setHours(hour);
-                            tmp_time.setMinutes(min);
+                            tmp_time.year(year);
+                            tmp_time.month(month);
+                            tmp_time.date(date);
+                            tmp_time.hour(hour);
+                            tmp_time.minute(min);
                         }
-                        const time = tmp_time
+                        const time = tmp_time.format();
 
                         return {
                             isChild: a.classNames[0] === "child",
                             author: a.querySelector('h3').innerHTML,
                             content: a.querySelector('p').innerHTML,
-                            time
+                            time,
+                            likes
                             };
                     });
                     const id = href.split('/')[3]

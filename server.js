@@ -4,6 +4,7 @@ const scrapper = require('./scrapper');
 const url = require('url');
 const dotenv = require('dotenv');
 const colors = require('colors');
+const moment = require('moment-timezone');
 const axios = require('axios').default;
 dotenv.config({path:'./.env'});
 // .env
@@ -53,6 +54,11 @@ app.route('/').get(async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`);
+    const server_seoul_start_time = moment(new Date()).tz('Asia/Seoul');
+    console.log(`Time at Seoul : ${server_seoul_start_time}`);
+    const server_local_start_time = moment(new Date());
+    console.log(`Time at Local : ${server_local_start_time}`);
+
 });
 
 
