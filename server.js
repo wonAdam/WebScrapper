@@ -17,10 +17,15 @@ let data;
 
 (async () => {
     while(true){
-        data = await scrapper(board_url);
-        console.log('************************************************************************');
-        console.log('************************* Data Update Complete *************************');
-        console.log('************************************************************************');
+        try{
+            data = await scrapper(board_url);
+            console.log('************************************************************************');
+            console.log('************************* Data Update Complete *************************');
+            console.log('************************************************************************');
+        }catch(err){
+            console.log(`Scrapping Error`);
+            console.log(`${err.message}`);
+        }
     }
 })()
 setInterval(async () => {
