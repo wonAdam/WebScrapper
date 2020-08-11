@@ -67,52 +67,6 @@ const scrapper = async (board_url) => {
                     const profile = htmlDOM2.querySelector('.profile');
                     const author = profile.querySelector('h3').innerHTML;
                 
-                    // Time
-                    const timeStr = profile.querySelector('time').innerHTML;
-                    const tmp_time = moment(new Date()).tz('Asia/Seoul');
-                    if(timeStr[timeStr.length-1] === '전'){ // @@분 전 / @분 전
-                        if(timeStr.length <= 4)
-                            tmp_time.minute(tmp_time.minute() - Number(timeStr[0]))
-                        else 
-                            tmp_time.minute(tmp_time.minute() - Number(timeStr.slice(0,2)))
-                    }
-                    else if(timeStr[0] === '방'){ // 방금
-                        // nothing to do
-                    }
-                    else if(timeStr.length === 14){ // @@/@@/@@ @@:@@ (작년이전) // 19/06/07 19:58
-                        const year = Number(timeStr.slice(0,2));
-                        const month = Number(timeStr.slice(3,5))-1;
-                        const date = Number(timeStr.slice(6,8));
-                        const hour = Number(timeStr.slice(9,11));
-                        const min = Number(timeStr.slice(12,14));
-                        tmp_time.year(2000+year);
-                        tmp_time.month(month);
-                        tmp_time.date(date);
-                        tmp_time.hour(hour);
-                        tmp_time.minute(min);         
-                        console.log(`year: ${year}`)
-                            console.log(`month: ${month}`)
-                            console.log(`date: ${date}`)
-                            console.log(`hour: ${hour}`)
-                            console.log(`min: ${min}`)
-                                   
-                    }
-                    else{ // 1시간후 올해 
-                        const year = moment(new Date()).year();
-                        const month = Number(timeStr.slice(0,2))-1;
-                        const date = Number(timeStr.slice(3,5));
-                        const hour = Number(timeStr.slice(6,8));
-                        const min = Number(timeStr.slice(9,11));
-                        tmp_time.year(year);
-                        tmp_time.month(month);
-                        tmp_time.date(date);
-                        tmp_time.hour(hour);
-                        tmp_time.minute(min);
-                    }
-                    const time = tmp_time.format();
-
-                    console.log(`origin: ${timeStr}`)    
-                    console.log(`modified time: ${time}`)
 
                     const container = htmlDOM2.querySelector("#container");
                     // console.log('container: ', container !== null)
@@ -130,56 +84,12 @@ const scrapper = async (board_url) => {
                         const commentvotestatus  = a.querySelector('.commentvotestatus');
                         const commentvote = commentvotestatus.querySelector('.commentvote');
                         const likes = commentvote.innerHTML;
-                        const timeStr = a.querySelector('time').innerHTML;
-                        const tmp_time = moment(new Date()).tz('Asia/Seoul');
-                        if(timeStr[timeStr.length-1] === '전'){
-                            if(timeStr.length <= 4)
-                                tmp_time.minute(tmp_time.minute() - Number(timeStr[0]))
-                            else 
-                                tmp_time.minute(tmp_time.minute() - Number(timeStr.slice(0,2)))
-                        }
-                        else if(timeStr[0] === '방'){
-                            // nothing to do
-                        }
-                        else if(timeStr.length === 14){
-                            const year = Number(timeStr.slice(0,2));
-                            const month = Number(timeStr.slice(3,5))-1;
-                            const date = Number(timeStr.slice(6,8));
-                            const hour = Number(timeStr.slice(9,11));
-                            const min = Number(timeStr.slice(12,14));
-                            tmp_time.year(year);
-                            tmp_time.month(month);
-                            tmp_time.date(date);
-                            tmp_time.hour(hour);
-                            tmp_time.minute(min);    
-                            console.log(`year: ${year}`)
-                            console.log(`month: ${month}`)
-                            console.log(`date: ${date}`)
-                            console.log(`hour: ${hour}`)
-                            console.log(`min: ${min}`)
-                            console.log(`origin: ${timeStr}`)
-                        }
-                        else{
-                            const year = moment(new Date()).year();
-                            const month = Number(timeStr.slice(0,2))-1;
-                            const date = Number(timeStr.slice(3,5));
-                            const hour = Number(timeStr.slice(6,8));
-                            const min = Number(timeStr.slice(9,11));
-                            tmp_time.year(year);
-                            tmp_time.month(month);
-                            tmp_time.date(date);
-                            tmp_time.hour(hour);
-                            tmp_time.minute(min);
-                        }
-                        const time = tmp_time.format();
-                        console.log(`origin: ${timeStr}`)    
-                    console.log(`modified time: ${time}`)
+                        
 
                         return {
                             isChild: a.classNames[0] === "child",
                             author: a.querySelector('h3').innerHTML,
                             content: a.querySelector('p').innerHTML,
-                            time,
                             likes
                             };
                     });
@@ -187,7 +97,6 @@ const scrapper = async (board_url) => {
                     articlesPage.push({
                         id,
                         author,
-                        time, 
                         content,
                         likes,
                         scraps,
