@@ -86,7 +86,7 @@ const scrapper = async (board_url) => {
                         const day = Number(timeStr.slice(6,8));
                         const hour = Number(timeStr.slice(9,11));
                         const min = Number(timeStr.slice(12,14));
-                        tmp_time.setFullYear(year);
+                        tmp_time.setFullYear(2000+year);
                         tmp_time.setMonth(month);
                         tmp_time.setDate(day);
                         tmp_time.setHours(hour);
@@ -104,9 +104,7 @@ const scrapper = async (board_url) => {
                         tmp_time.setHours(hour);
                         tmp_time.setMinutes(min);
                     }
-                    const time = new Date(tmp_time.toLocaleString('en-US', {
-                        timeZone: 'Asia/Seoul'
-                    }))
+                    const time = tmp_time;
 
 
 
@@ -159,9 +157,7 @@ const scrapper = async (board_url) => {
                             tmp_time.setHours(hour);
                             tmp_time.setMinutes(min);
                         }
-                        const time = new Date(tmp_time.toLocaleString('en-US', {
-                            timeZone: 'Asia/Seoul'
-                        }))
+                        const time = tmp_time
 
                         return {
                             isChild: a.classNames[0] === "child",
