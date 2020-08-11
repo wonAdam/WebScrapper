@@ -70,22 +70,34 @@ const scrapper = async (board_url) => {
                     // Time
                     const timeStr = profile.querySelector('time').innerHTML;
                     const tmp_time = new Date();
-                    if(timeStr[timeStr.length-1] === '전'){
+                    if(timeStr[timeStr.length-1] === '전'){ // @@분 전 / @분 전
                         tmp_time.setTime(Date.now());
                         if(timeStr.length <= 4)
                             tmp_time.setMinutes(tmp_time.getMinutes() - Number(timeStr[0]))
                         else 
                             tmp_time.setMinutes(tmp_time.getMinutes() - Number(timeStr.slice(0,2)))
                     }
-                    else if(timeStr[0] === '방'){
+                    else if(timeStr[0] === '방'){ // 방금
                         tmp_time.setTime(Date.now())
                     }
-                    else{
+                    else if(timeStr.length === 14){ // @@/@@/@@ @@:@@ (작년이전) // 19/06/07 19:58
+                        const year = Number(timeStr.slice(0,2));
+                        const month = Number(timeStr.slice(3,5))-1;
+                        const day = Number(timeStr.slice(6,8));
+                        const hour = Number(timeStr.slice(9,11));
+                        const min = Number(timeStr.slice(12,14));
+                        tmp_time.setFullYear(year);
+                        tmp_time.setMonth(month);
+                        tmp_time.setDate(day);
+                        tmp_time.setHours(hour);
+                        tmp_time.setMinutes(min);                    
+                    }
+                    else{ // 1시간후 올해 
                         const year = new Date(Date.now()).getFullYear();
-                        const month = new Date(timeStr).getMonth();
-                        const day = new Date(timeStr).getDate();
-                        const hour = new Date(timeStr).getHours();
-                        const min = new Date(timeStr).getMinutes();
+                        const month = Number(timeStr.slice(0,2))-1;
+                        const day = Number(timeStr.slice(3,5));
+                        const hour = Number(timeStr.slice(6,8));
+                        const min = Number(timeStr.slice(9,11));
                         tmp_time.setFullYear(year);
                         tmp_time.setMonth(month);
                         tmp_time.setDate(day);
@@ -123,12 +135,24 @@ const scrapper = async (board_url) => {
                         else if(timeStr[0] === '방'){
                             tmp_time.setTime(Date.now())
                         }
+                        else if(timeStr.length === 14){
+                            const year = Number(timeStr.slice(0,2));
+                            const month = Number(timeStr.slice(3,5))-1;
+                            const day = Number(timeStr.slice(6,8));
+                            const hour = Number(timeStr.slice(9,11));
+                            const min = Number(timeStr.slice(12,14));
+                            tmp_time.setFullYear(year);
+                            tmp_time.setMonth(month);
+                            tmp_time.setDate(day);
+                            tmp_time.setHours(hour);
+                            tmp_time.setMinutes(min);    
+                        }
                         else{
                             const year = new Date(Date.now()).getFullYear();
-                            const month = new Date(timeStr).getMonth();
-                            const day = new Date(timeStr).getDate();
-                            const hour = new Date(timeStr).getHours();
-                            const min = new Date(timeStr).getMinutes();
+                            const month = Number(timeStr.slice(0,2))-1;
+                            const day = Number(timeStr.slice(3,5));
+                            const hour = Number(timeStr.slice(6,8));
+                            const min = Number(timeStr.slice(9,11));
                             tmp_time.setFullYear(year);
                             tmp_time.setMonth(month);
                             tmp_time.setDate(day);
