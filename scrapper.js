@@ -89,10 +89,16 @@ const scrapper = async (board_url) => {
                         tmp_time.month(month);
                         tmp_time.date(date);
                         tmp_time.hour(hour);
-                        tmp_time.minute(min);                    
+                        tmp_time.minute(min);         
+                        console.log(`year: ${year}`)
+                            console.log(`month: ${month}`)
+                            console.log(`date: ${date}`)
+                            console.log(`hour: ${hour}`)
+                            console.log(`min: ${min}`)
+                                   
                     }
                     else{ // 1시간후 올해 
-                        const year = new Date(Date.now()).getFullYear();
+                        const year = moment(new Date()).year();
                         const month = Number(timeStr.slice(0,2))-1;
                         const date = Number(timeStr.slice(3,5));
                         const hour = Number(timeStr.slice(6,8));
@@ -105,7 +111,8 @@ const scrapper = async (board_url) => {
                     }
                     const time = tmp_time.format();
 
-
+                    console.log(`origin: ${timeStr}`)    
+                    console.log(`modified time: ${time}`)
 
                     const container = htmlDOM2.querySelector("#container");
                     // console.log('container: ', container !== null)
@@ -145,9 +152,15 @@ const scrapper = async (board_url) => {
                             tmp_time.date(date);
                             tmp_time.hour(hour);
                             tmp_time.minute(min);    
+                            console.log(`year: ${year}`)
+                            console.log(`month: ${month}`)
+                            console.log(`date: ${date}`)
+                            console.log(`hour: ${hour}`)
+                            console.log(`min: ${min}`)
+                            console.log(`origin: ${timeStr}`)
                         }
                         else{
-                            const year = new Date(Date.now()).getFullYear();
+                            const year = moment(new Date()).year();
                             const month = Number(timeStr.slice(0,2))-1;
                             const date = Number(timeStr.slice(3,5));
                             const hour = Number(timeStr.slice(6,8));
@@ -159,6 +172,8 @@ const scrapper = async (board_url) => {
                             tmp_time.minute(min);
                         }
                         const time = tmp_time.format();
+                        console.log(`origin: ${timeStr}`)    
+                    console.log(`modified time: ${time}`)
 
                         return {
                             isChild: a.classNames[0] === "child",
