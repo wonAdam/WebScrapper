@@ -69,10 +69,12 @@ const scrapper = async (board_url) => {
                 
                     // Time
                     const timeStr = profile.querySelector('time').innerHTML;
-                    const tmp_time = new Date();
+                    const tmp_time = Date().now();
                     if(timeStr[timeStr.length-1] === '전'){
-                        
-                        tmp_time.setTime(Date.now() - 60 * 1000 * Number(timeStr[0]))
+                        if(timeStr.length <= 4)
+                            tmp_time.setMinutes(tmp_time.getMinutes() - Number(timeStr[0]))
+                        else 
+                            tmp_time.setMinutes(tmp_time.getMinutes() - Number(timeStr.slice(0,2)))
                     }
                     else if(timeStr[0] === '방'){
                         tmp_time.setTime(Date.now())
@@ -111,7 +113,10 @@ const scrapper = async (board_url) => {
                         const timeStr = a.querySelector('time').innerHTML;
                         let tmp_time = Date.now();
                         if(timeStr[timeStr.length-1] === '전'){
-                            tmp_time.setMinutes(tmp_time.getMinutes() - Number(timeStr[0]));
+                            if(timeStr.length <= 4)
+                                tmp_time.setMinutes(tmp_time.getMinutes() - Number(timeStr[0]))
+                            else 
+                                tmp_time.setMinutes(tmp_time.getMinutes() - Number(timeStr.slice(0,2)))
                         }
                         else if(timeStr[0] === '방'){
                             tmp_time.setTime(Date.now())
