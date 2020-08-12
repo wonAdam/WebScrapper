@@ -15,20 +15,25 @@ const app = express();
 
 
 let data;
-
-(async () => {
-    while(true){
-        try{
-            data = await scrapper(board_url);
-            console.log('************************************************************************');
-            console.log('************************* Data Update Complete *************************');
-            console.log('************************************************************************');
-        }catch(err){
-            console.log(`Scrapping Error`);
-            console.log(`${err.message}`);
-        }
+let startTime;
+let endTime;
+let isScrapping;
+const scrapping = async () => {
+    startTime = moment(new Date());
+    try{
+        data = await scrapper(board_url);
+        console.log('************************************************************************');
+        console.log('************************* Data Update Complete *************************');
+        console.log('************************************************************************');
+    }catch(err){
+        console.log(`Scrapping Error`);
+        console.log(`${err.message}`);
     }
-})()
+    endTime = moment(new Date());
+    console.log(`scrapping took ${endTime - startTime} (endTime - startTime)`);
+    isScrapping = setTimeout(scrapping, 1000);
+};
+isScrapping = setTimeout(scrapping, 1000);
 setInterval(async () => {
     try{
         console.log(`Wake Up Call For Archiver API`.blue);
