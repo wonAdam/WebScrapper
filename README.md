@@ -1,17 +1,28 @@
 # WebScrapper
 Everytime WebScrapper for &lt;EveryTimeArchiver> mini-Project
 
-홍대에타 컴공게의 첫페이지를 크롤링 & 스크래핑해서 GET 매서드로 돌려줍니다.
+###### 지금 
 
-### REST
+###### 이 순간에도 
+
+###### 홍대에타 컴퓨터공학과 게시판의 첫페이지 (첫 게시글 20)를 
+
+###### 크롤링&스크래핑 중입니다.
+
+
+## REST
 GET - https://cs-board-api.herokuapp.com/
 
 
-### Crawling & Scrapping
+## Depoly
+Heroku
+
+
+## Crawling & Scrapping
 ![Image of scrapping](https://raw.githubusercontent.com/wonAdam/WebScrapper/master/ezgif-6-b467455bb803.gif)
 
 
 
 
-### Response data
+## Response data
 ![Image of response data](https://raw.githubusercontent.com/wonAdam/WebScrapper/master/ezgif.com-video-to-gif%20(1).gif)
