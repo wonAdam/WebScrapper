@@ -1,10 +1,23 @@
 # WebScrapper
 Everytime WebScrapper for &lt;EveryTimeArchiver> mini-Project
 
-홍대에타 컴공게의 첫페이지를 크롤링 & 스크래핑해서 GET 매서드로 돌려줍니다.
+#### 지금 
+
+#### 이 시점에도 
+
+#### 서버에서는 
+
+#### 홍대에타 컴공게 첫페이지를 
+
+#### 크롤링&스크래핑 중입니다.
+
 
 ### REST
 GET - https://cs-board-api.herokuapp.com/
+
+
+### Depoly
+Heroku
 
 
 ### Crawling & Scrapping
