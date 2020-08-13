@@ -34,7 +34,7 @@ const scrapping = async () => {
     if(endTime - startTime > currIntervalGap || scrappingIntervalCode.length > 1){
         console.log(`Interval intersected!!!!`.red);
         scrappingIntervalCode.forEach((c)=>clearInterval(c));
-        while(scrappingIntervalCode.length < 1) scrappingIntervalCode.pop();
+        while(scrappingIntervalCode.length > 0) scrappingIntervalCode.pop();
         console.log(`Restart the Interval...`.red);
         scrappingIntervalCode.push(setInterval(scrapping, endTime - startTime));
         currIntervalGap = endTime - startTime;
