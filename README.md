@@ -5,7 +5,7 @@ Everytime WebScrapper for &lt;EveryTimeArchiver> mini-Project
 
 ##### 이 순간에도 
 
-##### 홍대에타 컴퓨터공학과 게시판의 첫페이지 (첫 게시글 20)를 
+##### 홍대에타 컴퓨터공학과 게시판의 첫페이지 (첫 게시글 20개)를 
 
 ##### 크롤링&스크래핑 중입니다.
 
