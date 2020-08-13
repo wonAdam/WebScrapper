@@ -15,9 +15,9 @@ const app = express();
 
 
 let data;
-let startTime;
-let endTime;
-let isScrapping;
+let startTime = 0;
+let endTime = 6000;
+let scrappingIntervalCode;
 const scrapping = async () => {
     startTime = moment(new Date());
     try{
@@ -31,9 +31,18 @@ const scrapping = async () => {
     }
     endTime = moment(new Date());
     console.log(`scrapping took ${endTime - startTime} (endTime - startTime)`);
-    isScrapping = setTimeout(scrapping, 1000);
+    if(startTime > endTime){
+        clearInterval(scrappingIntervalCode);
+        console.log(`Interval intersected!!!!`.red);
+        console.log(`Restart the Interval...`.red);
+        scrappingIntervalCode = setInterval(isScrapping, 7000 + 2000);
+    }
+
 };
-isScrapping = setTimeout(scrapping, 1000);
+
+scrappingIntervalCode = setInterval(isScrapping, endTime - startTime + 2000);
+
+
 setInterval(async () => {
     try{
         console.log(`Wake Up Call For Archiver API`.blue);
