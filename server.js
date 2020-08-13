@@ -37,11 +37,12 @@ const scrapping = async () => {
         while(scrappingIntervalCode.length < 1) scrappingIntervalCode.pop();
         console.log(`Restart the Interval...`.red);
         scrappingIntervalCode.push(setInterval(scrapping, endTime - startTime));
+        currIntervalGap = endTime - startTime;
     }
 
 };
 
-scrappingIntervalCode.push(setInterval(scrapping, endTime - startTime));
+scrappingIntervalCode.push(setInterval(scrapping, currIntervalGap));
 
 
 setInterval(async () => {
