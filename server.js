@@ -35,12 +35,12 @@ const scrapping = async () => {
         clearInterval(scrappingIntervalCode);
         console.log(`Interval intersected!!!!`.red);
         console.log(`Restart the Interval...`.red);
-        scrappingIntervalCode = setInterval(isScrapping, 7000 + 2000);
+        scrappingIntervalCode = setInterval(scrapping, 7000 + 2000);
     }
 
 };
 
-scrappingIntervalCode = setInterval(isScrapping, endTime - startTime + 2000);
+scrappingIntervalCode = setInterval(scrapping, endTime - startTime + 2000);
 
 
 setInterval(async () => {
