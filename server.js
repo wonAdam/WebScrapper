@@ -15,11 +15,11 @@ const app = express();
 
 
 let data;
-let startTime = 0;
-let endTime = 30000;
-let scrappingIntervalCode;
+let currIntervalGap = 30000;
+let scrappingIntervalCode = [];
 const scrapping = async () => {
-    startTime = moment(new Date());
+    console.log(`Current Interval Codes Running: ${scrappingIntervalCode}`);
+    let startTime = moment(new Date());
     try{
         data = await scrapper(board_url);
         console.log('************************************************************************');
@@ -29,18 +29,19 @@ const scrapping = async () => {
         console.log(`Scrapping Error`);
         console.log(`${err.message}`);
     }
-    endTime = moment(new Date());
+    let endTime = moment(new Date());
     console.log(`scrapping took ${endTime - startTime} (endTime - startTime)`);
-    if(startTime > endTime){
-        clearInterval(scrappingIntervalCode);
+    if(endTime - startTime > currIntervalGap || scrappingIntervalCode.length > 1){
         console.log(`Interval intersected!!!!`.red);
+        scrappingIntervalCode.forEach((c)=>clearInterval(c));
+        while(scrappingIntervalCode.length < 1) scrappingIntervalCode.pop();
         console.log(`Restart the Interval...`.red);
-        scrappingIntervalCode = setInterval(scrapping, 30000 + (startTime - endTime));
+        scrappingIntervalCode.push(setInterval(scrapping, endTime - startTime));
     }
 
 };
 
-scrappingIntervalCode = setInterval(scrapping, endTime - startTime);
+scrappingIntervalCode.push(setInterval(scrapping, endTime - startTime));
 
 
 setInterval(async () => {
