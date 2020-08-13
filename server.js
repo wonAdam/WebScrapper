@@ -37,8 +37,14 @@ const scrapping = async () => {
         while(scrappingIntervalCode.length > 0) scrappingIntervalCode.pop();
         console.log(`Restart the Interval...`.red);
         setTimeout(scrapping, 500);
-        scrappingIntervalCode.push(setInterval(scrapping, endTime - startTime));
-        currIntervalGap = endTime - startTime;
+        if(endTime - startTime > 80000){
+            scrappingIntervalCode.push(setInterval(scrapping, endTime - startTime));
+            currIntervalGap = endTime - startTime;
+        } 
+        else{
+            scrappingIntervalCode.push(setInterval(scrapping, 80000));
+            currIntervalGap = 80000;
+        }
     }
 
     if(endTime - startTime < 20000){
@@ -48,7 +54,7 @@ const scrapping = async () => {
         console.log(`Restart the Interval...`.red);
         setTimeout(scrapping, 500);
         scrappingIntervalCode.push(setInterval(scrapping, 80000));
-        currIntervalGap = endTime - startTime;
+        currIntervalGap = 80000;
     }
 
 };
