@@ -16,7 +16,7 @@ const app = express();
 
 let data;
 let startTime = 0;
-let endTime = 6000;
+let endTime = 30000;
 let scrappingIntervalCode;
 const scrapping = async () => {
     startTime = moment(new Date());
@@ -35,12 +35,12 @@ const scrapping = async () => {
         clearInterval(scrappingIntervalCode);
         console.log(`Interval intersected!!!!`.red);
         console.log(`Restart the Interval...`.red);
-        scrappingIntervalCode = setInterval(scrapping, 7000 + 2000);
+        scrappingIntervalCode = setInterval(scrapping, 30000 + (startTime - endTime));
     }
 
 };
 
-scrappingIntervalCode = setInterval(scrapping, endTime - startTime + 2000);
+scrappingIntervalCode = setInterval(scrapping, endTime - startTime);
 
 
 setInterval(async () => {
