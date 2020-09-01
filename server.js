@@ -33,7 +33,7 @@ const scrapping = async () => {
     console.log(`scrapping took ${endTime - startTime} (endTime - startTime)`);
     
 
-    ;
+    
     while(true){
         try{
             let res = await axios.get(process.env.ARCHIVER_API_JOBDONE_URI);
