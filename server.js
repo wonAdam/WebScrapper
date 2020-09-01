@@ -70,6 +70,7 @@ app.use(morgan('common'));
 app.route('/').get(async (req, res) => {
     res.send({
         status: 'success',
+        start:isScrapping,
         data
     });
     console.log('#########################Sending Response Complete#########################'.cyan);
@@ -78,17 +79,11 @@ app.route('/').get(async (req, res) => {
 app.route('/ack').get((req, res) => {
     if(!isScrapping){
         scrapping();
-        res.status(200).json({
-            success:true,
-            start:true
-        })
     }
-    else{
-        res.status(200).json({
-            success:true,
-            start:false
-        })
-    }
+    res.status(200).json({
+        success:true,
+        start:isScrapping
+    })
 
 })
 
