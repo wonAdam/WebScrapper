@@ -37,7 +37,10 @@ const scrapping = async () => {
     while(true){
         try{
             let res = await axios.get(process.env.ARCHIVER_API_JOBDONE_URI);
-            if(res.data.success) break;
+            if(res.data.success) {
+                console.log('ARCHIVER JOBDONE REQUEST SUCCEED')
+                break;
+            }
         }catch(err){
             console.log(err);
         }    
