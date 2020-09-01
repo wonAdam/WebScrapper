@@ -74,6 +74,9 @@ app.route('/').get(async (req, res) => {
 
 app.route('/ack').get((req, res) => {
     scrapping();
+    res.status(200).json({
+        success:true
+    })
 })
 
 const PORT = process.env.PORT || 3000;
