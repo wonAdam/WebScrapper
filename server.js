@@ -14,17 +14,20 @@ dotenv.config({path:'./.env'});
 const board_url = 'https://everytime.kr/382283';
 const app = express();
 
-
+let isScrapping = false;
 let data;
 let currIntervalGap = 0;
 const scrapping = async () => {
     console.log(`Current Interval Gap: ${currIntervalGap}`);
     let startTime = moment(new Date());
     try{
+        isScrapping = true;
         data = await scrapper(board_url);
         console.log('************************************************************************');
         console.log('************************* Data Update Complete *************************');
         console.log('************************************************************************');
+        isScrapping = false;
+
     }catch(err){
         console.log(`Scrapping Error`);
         console.log(`${err.message}`);
@@ -32,7 +35,7 @@ const scrapping = async () => {
     let endTime = moment(new Date());
     console.log(`scrapping took ${endTime - startTime} (endTime - startTime)`);
     
-
+    currIntervalGap = endTime - startTime;
     
     while(true){
         try{
@@ -73,10 +76,20 @@ app.route('/').get(async (req, res) => {
 });
 
 app.route('/ack').get((req, res) => {
-    scrapping();
-    res.status(200).json({
-        success:true
-    })
+    if(!isScrapping){
+        scrapping();
+        res.status(200).json({
+            success:true,
+            start:true
+        })
+    }
+    else{
+        res.status(200).json({
+            success:true,
+            start:false
+        })
+    }
+
 })
 
 const PORT = process.env.PORT || 3000;
