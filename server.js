@@ -10,13 +10,13 @@ dotenv.config({path:'./.env'});
 // .env
 // APIFY_API_URL = { 에타 비번과 아이디를 보내주는 api url }
 // PORT = { 사용할 포트번호 }
+// ARCHIVER_API_URI = { 아카이버 scrapperJobDone GET }
 const board_url = 'https://everytime.kr/382283';
 const app = express();
 
 
 let data;
-let currIntervalGap = 80000;
-let scrappingIntervalCode = [];
+let currIntervalGap = 0;
 const scrapping = async () => {
     console.log(`Current Interval Gap: ${currIntervalGap}`);
     let startTime = moment(new Date());
@@ -31,35 +31,20 @@ const scrapping = async () => {
     }
     let endTime = moment(new Date());
     console.log(`scrapping took ${endTime - startTime} (endTime - startTime)`);
-    if(endTime - startTime > currIntervalGap || scrappingIntervalCode.length > 1){
-        console.log(`CODE1- Interval intersected!!!!`.red);
-        scrappingIntervalCode.forEach((c)=>clearInterval(c));
-        while(scrappingIntervalCode.length > 0) scrappingIntervalCode.pop();
-        console.log(`Restart the Interval...`.red);
-        setTimeout(scrapping, 500);
-        if(endTime - startTime > 80000){
-            scrappingIntervalCode.push(setInterval(scrapping, endTime - startTime));
-            currIntervalGap = endTime - startTime;
-        } 
-        else{
-            scrappingIntervalCode.push(setInterval(scrapping, 80000));
-            currIntervalGap = 80000;
-        }
-    }
+    
 
-    if(endTime - startTime < 20000){
-        console.log(`CODE2- Interval intersected!!!!`.red);
-        scrappingIntervalCode.forEach((c)=>clearInterval(c));
-        while(scrappingIntervalCode.length > 0) scrappingIntervalCode.pop();
-        console.log(`Restart the Interval...`.red);
-        setTimeout(scrapping, 500);
-        scrappingIntervalCode.push(setInterval(scrapping, 80000));
-        currIntervalGap = 80000;
+    ;
+    while(true){
+        try{
+            let res = await axios.get(process.env.ARCHIVER_API_JOBDONE_URI);
+            if(res.data.success) break;
+        }catch(err){
+            console.log(err);
+        }    
     }
-
+    
 };
-
-scrappingIntervalCode.push(setInterval(scrapping, currIntervalGap));
+scrapping();
 
 
 setInterval(async () => {
@@ -83,6 +68,10 @@ app.route('/').get(async (req, res) => {
     });
     console.log('#########################Sending Response Complete#########################'.cyan);
 });
+
+app.route('/ack').get((req, res) => {
+    scrapping();
+})
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
