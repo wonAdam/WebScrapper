@@ -21,12 +21,10 @@ const scrapping = async () => {
     console.log(`Current Interval Gap: ${currIntervalGap}`);
     let startTime = moment(new Date());
     try{
-        isScrapping = true;
         data = await scrapper(board_url);
         console.log('************************************************************************');
         console.log('************************* Data Update Complete *************************');
         console.log('************************************************************************');
-        isScrapping = false;
 
     }catch(err){
         console.log(`Scrapping Error`);
@@ -48,9 +46,11 @@ const scrapping = async () => {
             console.log(err);
         }    
     }
+
+    setTimeout(scrapping, 5000);
     
 };
-scrapping();
+setTimeout(scrapping, 1000);
 
 
 setInterval(async () => {
@@ -59,10 +59,6 @@ setInterval(async () => {
         const res = await axios.get(process.env.EVERY_TIME_ARCHIVER_API_URI);
         console.log(`success: ${res.data.success}`.blue);
 
-        if(!isScrapping){
-            console.log(`WHY NOT WORK! WORK! START!`);
-            scrapping();
-        }
     }catch(err){
         console.log(`WAKE UP CALL FAIL`.red)
     }
@@ -82,9 +78,6 @@ app.route('/').get(async (req, res) => {
 });
 
 app.route('/ack').get((req, res) => {
-    if(!isScrapping){
-        scrapping();
-    }
     res.status(200).json({
         success:true,
         start:isScrapping
