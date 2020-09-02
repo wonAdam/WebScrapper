@@ -58,6 +58,11 @@ setInterval(async () => {
         console.log(`Wake Up Call For Archiver API`.blue);
         const res = await axios.get(process.env.EVERY_TIME_ARCHIVER_API_URI);
         console.log(`success: ${res.data.success}`.blue);
+
+        if(!isScrapping){
+            console.log(`WHY NOT WORK! WORK! START!`);
+            scrapping();
+        }
     }catch(err){
         console.log(`WAKE UP CALL FAIL`.red)
     }
