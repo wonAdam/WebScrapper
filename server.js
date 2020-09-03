@@ -47,7 +47,8 @@ const scrapping = async () => {
         }    
     }
 
-    setTimeout(scrapping, 5000);
+    if(isScrapping.length === 0)
+        setTimeout(scrapping, 5000);
     
 };
 setTimeout(scrapping, 1000);
@@ -82,15 +83,9 @@ app.route('/').get(async (req, res) => {
         data
     });
     console.log('#########################Sending Response Complete#########################'.cyan);
+
+    if(isScrapping.length === 0) setTimeout(scrapping, 5000);;
 });
-
-app.route('/ack').get((req, res) => {
-    res.status(200).json({
-        success:true,
-        start:isScrapping
-    })
-
-})
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
