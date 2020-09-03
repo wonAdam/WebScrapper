@@ -21,7 +21,9 @@ const scrapping = async () => {
     console.log(`Current Interval Gap: ${currIntervalGap}`);
     let startTime = moment(new Date());
     try{
+        isScrapping = true;
         data = await scrapper(board_url);
+        isScrapping = false;
         console.log('************************************************************************');
         console.log('************************* Data Update Complete *************************');
         console.log('************************************************************************');
@@ -58,6 +60,12 @@ setInterval(async () => {
         console.log(`Wake Up Call For Archiver API`.blue);
         const res = await axios.get(process.env.EVERY_TIME_ARCHIVER_API_URI);
         console.log(`success: ${res.data.success}`.blue);
+
+
+        if(!isScrapping){
+            console.log('Why Are You Idling! Scrapping Restart!')
+            setTimeout(scrapping, 1000);
+        }
 
     }catch(err){
         console.log(`WAKE UP CALL FAIL`.red)
