@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const colors = require('colors');
 const moment = require('moment-timezone');
 const axios = require('axios').default;
+const isScrapping = require('./scrapperWorkingMem');
 dotenv.config({path:'./.env'});
 // .env
 // APIFY_API_URL = { 에타 비번과 아이디를 보내주는 api url }
@@ -14,16 +15,13 @@ dotenv.config({path:'./.env'});
 const board_url = 'https://everytime.kr/382283';
 const app = express();
 
-let isScrapping = false;
 let data;
 let currIntervalGap = 0;
 const scrapping = async () => {
     console.log(`Current Interval Gap: ${currIntervalGap}`);
     let startTime = moment(new Date());
     try{
-        isScrapping = true;
         data = await scrapper(board_url);
-        isScrapping = false;
         console.log('************************************************************************');
         console.log('************************* Data Update Complete *************************');
         console.log('************************************************************************');
@@ -60,9 +58,10 @@ setInterval(async () => {
         console.log(`Wake Up Call For Archiver API`.blue);
         const res = await axios.get(process.env.EVERY_TIME_ARCHIVER_API_URI);
         console.log(`success: ${res.data.success}`.blue);
+        console.log('isScrapping: ');
+        console.log(isScrapping);
 
-
-        if(!isScrapping){
+        if(isScrapping.length === 0){
             console.log('Why Are You Idling! Scrapping Restart!')
             setTimeout(scrapping, 1000);
         }
