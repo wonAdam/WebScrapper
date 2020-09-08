@@ -47,11 +47,12 @@ const scrapping = async () => {
         }    
     }
 
-    if(isScrapping.length === 0)
-        setTimeout(scrapping, 5000);
+    const timeoutCode = setTimeout(scrapping, 5000);
+    isScrapping.push(timeoutCode);
     
 };
-setTimeout(scrapping, 1000);
+const timeoutCode = setTimeout(scrapping, 1000);
+isScrapping.push(timeoutCode);
 
 
 setInterval(async () => {
@@ -62,9 +63,13 @@ setInterval(async () => {
         console.log('isScrapping: ');
         console.log(isScrapping);
 
-        if(isScrapping.length === 0){
-            console.log('Why Are You Idling! Scrapping Restart!')
-            setTimeout(scrapping, 1000);
+        if(isScrapping.length > 6){
+            console.log('Too Many Timeout');
+            for(let c of isScrapping){
+                clearTimeout(c);
+            }
+            const timeoutCode = setTimeout(scrapping, 1000);
+            isScrapping.push(timeoutCode);
         }
 
     }catch(err){
@@ -83,8 +88,6 @@ app.route('/').get(async (req, res) => {
         data
     });
     console.log('#########################Sending Response Complete#########################'.cyan);
-
-    if(isScrapping.length === 0) setTimeout(scrapping, 5000);;
 });
 
 const PORT = process.env.PORT || 3000;

@@ -3,12 +3,10 @@ const axios = require('axios').default;
 const puppeteer = require('puppeteer');
 const url = require('url')
 const moment = require('moment-timezone');
-const isScrapping = require('./scrapperWorkingMem');
 
 
 const scrapper = async (board_url) => {
     const articlesPage = [];
-    isScrapping.push(1);
     return new Promise((res, rej) => {
             
             axios.get(process.env.APIFY_API_URL)
@@ -111,7 +109,6 @@ const scrapper = async (board_url) => {
 
                     
                 await browser.close();
-                isScrapping.pop();
                 res(articlesPage);
                 
             }catch(e){
