@@ -47,12 +47,10 @@ const scrapping = async () => {
         }    
     }
 
-    const timeoutCode = setTimeout(scrapping, 5000);
-    isScrapping.push(timeoutCode);
+    setTimeout(scrapping, 5000);
     
 };
-const timeoutCode = setTimeout(scrapping, 1000);
-isScrapping.push(timeoutCode);
+setTimeout(scrapping, 1000);
 
 
 setInterval(async () => {
@@ -62,15 +60,6 @@ setInterval(async () => {
         console.log(`success: ${res.data.success}`.blue);
         console.log('isScrapping: ');
         console.log(isScrapping);
-
-        if(isScrapping.length > 6){
-            console.log('Too Many Timeout');
-            for(let c of isScrapping){
-                clearTimeout(c);
-            }
-            const timeoutCode = setTimeout(scrapping, 1000);
-            isScrapping.push(timeoutCode);
-        }
 
     }catch(err){
         console.log(`WAKE UP CALL FAIL`.red)
